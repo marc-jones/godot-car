@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Car.tscn" type="PackedScene" id=1]
+
+[node name="MainScene" type="Node2D"]
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Car" parent="." instance=ExtResource( 1 )]
+position = Vector2( 448, 320 )
