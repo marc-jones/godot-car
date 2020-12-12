@@ -4,16 +4,16 @@ extends Node2D
 var max_steering_rotation = 30.0
 # Wheel movement speed
 var steering_rotation_speed = 100.0
-# How much the speed affects turning
-var speed_rotation_factor = 0.01
+# Distance between the two axis
+var axis_diff = 130.0
 # Speed limits
-var max_forward_speed = 10.0
-var max_reverse_speed = 5.0
+var max_forward_speed = 800.0
+var max_reverse_speed = 300.0
 # Acceleration
-var forward_acceleration = 10.0
-var reverse_acceleration = 10.0
+var forward_acceleration = 1000.0
+var reverse_acceleration = 1000.0
 # Drag when no buttons are pressed
-var drag = 5.0
+var drag = 500.0
 
 var speed = 0.0
 var steering_rotation = 0.0
@@ -43,9 +43,10 @@ func _process(delta):
 		speed = max(speed, -max_reverse_speed)
 	else:
 		speed += -1 * sign(speed) * drag * delta
-	position += Vector2(0, -1).rotated(rotation) * speed
-	rotation += (speed_rotation_factor * steering_rotation
-		* PI * speed / 180.0)
+	position += (Vector2(0, -1).rotated(rotation)
+		* speed * delta)
+	rotation += asin(speed * delta *
+		sin(steering_rotation* PI / 180.0) / axis_diff)
 
 func update_tyre_rotation():
 	$TyreL.set_rotation(steering_rotation * PI / 180)
